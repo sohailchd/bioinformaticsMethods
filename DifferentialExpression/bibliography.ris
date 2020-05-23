@@ -1,0 +1,84 @@
+#### TY  - JOUR
+#### DB  - PubMed
+#### AU  - Soneson, Charlotte
+#### AU  - Love, Michael I
+#### AU  - Robinson, Mark D
+#### T1  - Differential analyses for RNA-seq: transcript-level estimates improve gene-level inferences
+#### SN  - 2046-1402
+#### SN  - 2046-1402
+#### Y1  - 2016/02/29
+#### AB  - High-throughput sequencing of cDNA (RNA-seq) is used extensively to characterize the transcriptome of cells. Many transcriptomic studies aim at comparing either abundance levels or the transcriptome composition between given conditions, and as a first step, the sequencing reads must be used as the basis for abundance quantification of transcriptomic features of interest, such as genes or transcripts. Various quantification approaches have been proposed, ranging from simple counting of reads that overlap given genomic regions to more complex estimation of underlying transcript abundances. In this paper, we show that gene-level abundance estimates and statistical inference offer advantages over transcript-level analyses, in terms of performance and interpretability. We also illustrate that the presence of differential isoform usage can lead to inflated false discovery rates in differential gene expression analyses on simple count matrices but that this can be addressed by incorporating offsets derived from transcript-level abundance estimates. We also show that the problem is relatively minor in several real data sets. Finally, we provide an R package ( tximport) to help users integrate transcript-level abundance estimates from common quantification pipelines into count-based statistical inference engines.
+#### SP  - 1521
+#### SP  - 1521
+#### EP  - 1521
+#### VL  - 4
+#### AN  - 26925227
+#### UR  - https://www.ncbi.nlm.nih.gov/pubmed/26925227
+#### DO  - 10.12688/f1000research.7563.2
+#### L2  - https://www.ncbi.nlm.nih.gov/pmc/PMC4712774/
+#### U1  - 26925227[pmid]
+#### U2  - PMC4712774[pmcid]
+#### J1  - F1000Res
+#### JF  - F1000Research
+#### PB  - F1000Research
+#### ER  - 
+#### TY  - JOUR
+#### DB  - PubMed
+#### AU  - Raithel, Seth
+#### AU  - Johnson, Loretta
+#### AU  - Galliart, Matthew
+#### AU  - Brown, Sue
+#### AU  - Shelton, Jennifer
+#### AU  - Herndon, Nicolae
+#### AU  - Bello, Nora M
+#### T1  - Inferential considerations for low-count RNA-seq transcripts: a case study on the dominant prairie grass Andropogon gerardii
+#### SN  - 1471-2164
+#### Y1  - 2016/02/27
+#### AB  - BACKGROUND: Differential expression (DE) analysis of RNA-seq data still poses inferential challenges, such as handling of transcripts characterized by low expression levels. In this study, we use a plasmode-based approach to assess the relative performance of alternative inferential strategies on RNA-seq transcripts, with special emphasis on transcripts characterized by a small number of read counts, so-called low-count transcripts, as motivated by an ecological application in prairie grasses. Big bluestem (Andropogon gerardii) is a wide-ranging dominant prairie grass of ecological and agricultural importance to the US Midwest while edaphic subspecies sand bluestem (A. gerardii ssp. Hallii) grows exclusively on sand dunes. Relative to big bluestem, sand bluestem exhibits qualitative phenotypic divergence consistent with enhanced drought tolerance, plausibly associated with transcripts of low expression levels. Our dataset consists of RNA-seq read counts for 25,582 transcripts (60% of which are classified as low-count) collected from leaf tissue of individual plants of big bluestem (n = 4) and sand bluestem (n = 4). Focused on low-count transcripts, we compare alternative ad-hoc data filtering techniques commonly used in RNA-seq pipelines and assess the inferential performance of recently developed statistical methods for DE analysis, namely DESeq2 and edgeR robust. These methods attempt to overcome the inherently noisy behavior of low-count transcripts by either shrinkage or differential weighting of observations, respectively. RESULTS: Both DE methods seemed to properly control family-wise type 1 error on low-count transcripts, whereas edgeR robust showed greater power and DESeq2 showed greater precision and accuracy. However, specification of the degree of freedom parameter under edgeR robust had a non-trivial impact on inference and should be handled carefully. When properly specified, both DE methods showed overall promising inferential performance on low-count transcripts, suggesting that ad-hoc data filtering steps at arbitrary expression thresholds may be unnecessary. A note of caution is in order regarding the approximate nature of DE tests under both methods. CONCLUSIONS: Practical recommendations for DE inference are provided when low-count RNA-seq transcripts are of interest, as is the case in the comparison of subspecies of bluestem grasses. Insights from this study may also be relevant to other applications focused on transcripts of low expression levels.
+#### SP  - 140
+#### SP  - 140
+#### EP  - 140
+#### VL  - 17
+#### AN  - 26919855
+#### UR  - https://www.ncbi.nlm.nih.gov/pubmed/26919855
+#### DO  - 10.1186/s12864-016-2442-7
+#### L2  - https://www.ncbi.nlm.nih.gov/pmc/PMC4769568/
+#### U1  - 26919855[pmid]
+#### U2  - PMC4769568[pmcid]
+#### U4  - 10.1186/s12864-016-2442-7[PII]
+#### J1  - BMC Genomics
+#### JF  - BMC genomics
+#### PB  - BioMed Central
+#### ER  - 
+#### TY  - JOUR
+#### DB  - PubMed
+#### AU  - Peruzzi, Stefano
+#### AU  - Puvanendran, Velmurugu
+#### AU  - Riesen, Guido
+#### AU  - Seim, Rudi Ripman
+#### AU  - Hagen, Ørjan
+#### AU  - Martínez-Llorens, Silvia
+#### AU  - Falk-Petersen, Inger-Britt
+#### AU  - Fernandes, Jorge M O
+#### AU  - Jobling, Malcolm
+#### T1  - Growth and development of skeletal anomalies in diploid and triploid Atlantic salmon (Salmo salar) fed phosphorus-rich diets with fish meal and hydrolyzed fish protein
+#### SN  - 1932-6203
+#### Y1  - 2018/03/22
+#### AB  - Diploid and triploid Atlantic salmon, Salmo salar were fed high-protein, phosphorus-rich diets (56-60% protein; ca 18g phosphorus kg-1 diet) whilst being reared at low temperature from start-feeding until parr-smolt transformation. Performances of salmon fed diets based on fish meal (STD) or a mix of fishmeal and hydrolysed fish proteins (HFM) as the major protein sources were compared in terms of mortality, diet digestibility, growth and skeletal deformities. Separate groups of diploids and triploids were reared in triplicate tanks (initially 3000 fish per tank; tank biomass ca. 620 g) from 0-2745 degree-days post-start feeding (ddPSF). Growth metrics (weight, length, condition factor) were recorded at ca. 4 week intervals, external signs of deformities to the operculum, jaws and spinal column were examined in parr sampled at 1390 ddPSF, and external signs of deformity and vertebral anomalies (by radiography) were examined in fish sampled at the end of the trial (2745 ddPSF). The triploid salmon generally had a lower mass per unit length, i.e. lower condition factor, throughout the trial, but this did not seem to reflect any consistent dietary or ploidy effects on either dietary digestibility or the growth of the fish. By the end of the trial fish in all treatment groups had achieved a weight of 50+ g, and had completed the parr-smolt transformation. The triploids had slightly, but significantly, fewer vertebrae (Triploids STD 58.74 ± 0.10; HFM 58.68 ± 0.05) than the diploids (Diploids STD 58.97 ± 0.14; HFM 58.89 ± 0.01), and the incidence of skeletal (vertebral) abnormalities was higher in triploids (Triploids STD 31 ± 0.90%; HFM 15 ± 1.44%) than in diploids (Diploids STD 4 ± 0.80%; HFM 4 ± 0.83%). The HFM diet gave a significant reduction in the numbers of triploid salmon with vertebral anomalies in comparison with the triploids fed the STD diet possibly as a result of differences in phosphorus bioavailability between the two diets. Overall, the incidence of skeletal deformities was lower than reported in previous studies (Diploids 20+%, Triploids 40+%), possibly as a result of the combination of rearing at low-temperature and phosphorus-rich diets being used in the present study.
+#### SP  - e0194340
+#### SP  - e0194340
+#### EP  - e0194340
+#### VL  - 13
+#### IS  - 3
+#### AN  - 29566030
+#### UR  - https://www.ncbi.nlm.nih.gov/pubmed/29566030
+#### DO  - 10.1371/journal.pone.0194340
+#### L2  - https://www.ncbi.nlm.nih.gov/pmc/PMC5864013/
+#### U1  - 29566030[pmid]
+#### U2  - PMC5864013[pmcid]
+#### U4  - PONE-D-17-32629[PII]
+#### J1  - PLoS One
+#### JF  - PloS one
+#### PB  - Public Library of Science
+#### ER  - 
+#### 

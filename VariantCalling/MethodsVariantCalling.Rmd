@@ -1,0 +1,33 @@
+---
+title: "Methods"
+author: Basar
+output:
+  md_document:
+    variant: markdown_github
+bibliography: bibliography.ris
+link-citations: true
+---
+
+## Overview
+Variant calling is the identification of genomic differences between individuals    
+of the same species (germline) or differences between tissues in a single individual (somatic).   
+
+We will use a reference genome to create a alignment file in BAM format and use 
+variant calling program from google called DeepVariant. We will run the DeepVariant in 
+docker mode. 
+
+
+
+1. Retrieve the reference genome using getGenome.sh 
+2. Run the script getReads.sh for retrieving the using accession SRR6808334. 
+3. Run trimReads.sh for running Trimmomatic for quality trims. 
+4. Now we will use the BWA for indexing reference genome. Run indexGenome.sh. 
+5. For aligning we will use mem BWA. Run alignReads.sh 
+6. We will run the DeepVariant from google which will produce VCF files. 
+   For running DeepVariant locally we will use docker. Run the script analyzeVariant.sh which
+   will install docker and run the imge with reference genome and BAM file from sep 6 as input 
+   and create a VCF file in output dir called variant_output. 
+
+
+
+# References

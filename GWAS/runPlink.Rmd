@@ -1,0 +1,328 @@
+---
+author: Basar Chowdhury
+title : Plink examples
+output:
+  html_document:
+    toc: true
+    toc_depth: 4
+    toc_float: true
+    dev: 'svg'
+  md_document:
+    variant: gfm
+params:
+  filename: "ibd_view.mibs"
+  filename2: "rec_snp1.raw"
+---
+
+
+### Getting started
+
+* Run the getExamples.sh to download all the data
+
+Just typing plink and specifying a file with no further options is a good 
+way to check that the file is intact, and to get some basic summary 
+statistics about the file.
+
+```{bash echo=TRUE,results='hide',fig.keep='all'}
+plink --file hapmap1
+```
+
+PED and MAP files are plain text files; PED files contain genotype 
+information (one person per row) and MAP files contain information on the 
+name and position of the markers in the PED file
+```{bash echo=FALSE,fig.keep='all'}
+cat hapmap1.log
+```
+
+
+### Making a binary PED file
+
+The first thing we will do is to make a binary PED file. This more compact 
+representation of the data saves space and speeds up subsequent analysis. 
+To make a binary PED file, use the following command.
+
+```{bash echo=TRUE,results='hide',fig.keep='all'}
+plink --file hapmap1 --make-bed --out hapmap1
+```
+
+
+If we wanted to create a new file that only includes individuals with high genotyping 
+(at least 95% complete), you would run:
+```{bash echo=TRUE,results='hide',fig.keep='all'}
+plink --file hapmap1 --make-bed --mind 0.05 --out highgeno
+```
+
+
+### Working with the binary PED file
+
+```{bash echo=TRUE,error=FALSE,fig.keep='all'}
+#Working with the binary PED file
+#plink --bfile hapmap1
+```
+
+```{bash echo=TRUE,fig.keep='all'}
+cat plink.log
+```
+
+
+### Summary statistics: missing rates
+Next we perform a similar analysis, except requesting allele frequencies instead of genotyping rates. 
+The following command generates a file called freq_stat.frq 
+which contains the minor allele frequency and allele codes for each SNP.
+
+```{bash echo=TRUE,results='hide',fig.keep='all'}
+# Summary statistics: missing rates
+plink --bfile hapmap1 --missing --out miss_stat
+```
+
+
+
+Here we see that no individuals were removed for low genotypes 
+(MIND > 0.1 implies that we accept people with less than 10 percent missingness).  
+
+The per individual and per SNP (after excluding individuals on the basis of low 
+genotyping) rates are then output to the files miss_stat.imiss and miss_stat.lmiss 
+respectively. If we had not specified an --out option, the root output filename 
+would have defaulted to "plink".
+```{bash echo=TRUE,fig.keep='all'}
+head miss_stat.imiss
+```
+
+
+
+### Summary statistics: allele frequencies
+
+Next we perform a similar analysis, except requesting allele frequencies 
+instead of genotyping rates. The following command generates a file called 
+freq_stat.frq which contains the minor allele frequency and allele codes for 
+each SNP.
+
+```{bash echo=TRUE,results='hide',fig.keep='all'}
+# To perform a stratified analysis, use the --within option.
+plink --bfile hapmap1 --freq --within pop.phe --out freq_stat
+```
+
+```{bash echo=TRUE,fig.keep='all'}
+head miss_stat.lmiss
+```
+
+
+If we were just interested in a specific SNP, and wanted to know what the 
+frequency was in the two populations, you can use the --snp option to select 
+this SNP:
+
+```{bash echo=TRUE,results='hide',fig.keep='all'}
+plink --bfile hapmap1 --snp rs1891905 --freq --within pop.phe --out snp1_frq_stat
+```
+
+### Basic association analysis
+Let's now perform a basic association analysis on the disease trait for all single SNPs. The basic command is
+
+```{bash echo=TRUE,results='hide',fig.keep='all'}
+plink --bfile hapmap1 --assoc --out as1
+```
+
+which generates an output file as1.assoc which contains the following fields
+```{bash echo=TRUE,fig.keep='all'}
+head as1.assoc
+```
+where each row is a single SNP association result. The fields are:
+-Chromosome
+-SNP identifier
+-Code for allele 1 (the minor, rare allele based on the entire sample frequencies)
+-The frequency of this variant in cases
+-The frequency of this variant in controls
+-Code for the other allele
+-The chi-squared statistic for this test (1 df)
+-The asymptotic significance value for this test
+-The odds ratio for this test
+
+
+In a Unix/Linux environment, one could simply use the available command line tools to sort the list of 
+association statistics and print out the top ten, for example:
+```{bash echo=TRUE,fig.keep='all'}
+sort --key=7 -nr as1.assoc | head
+```
+
+
+To get a sorted list of association results, that also includes a range of significance values that
+are adjusted for multiple testing, use the --adjust flag:
+
+```{bash echo=TRUE,results='hide',fig.keep='all'}
+plink --bfile hapmap1 --assoc --adjust --out as2
+```
+
+This generates the file as2.assoc.adjust in addition to the basic as2.assoc output file. 
+Using head, one can easily look at one's most significant associations:
+```{bash echo=TRUE,fig.keep='all'}
+head as2.assoc.adjusted
+```
+
+
+
+### Genotypic and other association models
+
+```{bash echo=TRUE,results='hide',fig.keep='all'}
+plink --bfile hapmap1 --model --snp rs2222162 --out mod1
+```
+
+This generates the file mod1.model which has more than one row per SNP, representing the different tests 
+performed for each SNP. The format of this file is described here. The tests are the basic allelic test,
+the Cochran-Armitage trend test, dominant and recessive models and a genotypic test. All test statistics
+are distributed as chi-squared with 1 df under the null, with the exception of the genotypic test which has 2 df.
+
+```{bash echo=TRUE,fig.keep='all'}
+head mod1.model 
+```
+
+To force the genotypic tests for this particular SNP just for illustrative purposes, we need to run:
+
+```{bash echo=TRUE,results='hide',fig.keep='all'}
+plink --bfile hapmap1 --model --cell 0 --snp rs2222162 --out mod2
+```
+
+Now the genotypic tests will also be calculated, as we set the minimum number in each cell to 0. 
+We see that the genotype counts in affected and unaffected individuals are
+```{bash echo=TRUE,fig.keep='all'}
+head mod2.model 
+```
+
+
+
+
+
+
+### Stratification analysis
+
+```{bash echo=TRUE,results='hide',fig.keep='all'}
+plink --bfile hapmap1 --cluster --mc 2 --ppc 0.05 --out str1
+```
+
+which indicate that IBS-clustering has been performed. These files are described in the main documentation. 
+The file str1.cluster1 contains the results of clustering in a format that is easy to read:
+```{bash echo=TRUE,fig.keep='all'}
+head str1.cluster1
+```
+
+
+### Association analysis, accounting for clusters
+
+After having performed the above matching based on genome-wide IBS, we can now perform the 
+association test conditional on the matching. For this, the relevant file is the str1.cluster2 file, 
+which contains the same information as str1.cluster1 but in the format of a 
+cluster variable file, that can be used in conjunction with the --within option.
+
+
+```{bash echo=TRUE,results='hide',fig.keep='all'}
+plink --bfile hapmap1 --mh --within str1.cluster2 --adjust --out aac1
+```
+
+```{bash echo=TRUE,fig.keep='all'}
+head aac1.cmh.adjusted
+```
+
+We can also perform the clustering, but with fewer, or different, constraints on the final solution. 
+
+```{bash echo=TRUE,results='hide',fig.keep='all'}
+plink --bfile hapmap1 --cluster --K 2 --out version3
+```
+
+
+### Quantitative trait association analysis
+```{bash echo=TRUE,results='hide',fig.keep='all'}
+plink --bfile hapmap1 --assoc --pheno qt.phe --out quant1
+```
+
+
+```{bash echo=TRUE,results='hide',fig.keep='all'}
+## We request clustered permutation as follows, using the original pairing approach to matching:
+plink --bfile hapmap1 --assoc --pheno qt.phe --perm --within str1.cluster2 --out quant2
+```
+
+
+```{bash echo=TRUE,results='hide',fig.keep='all'}
+### Extracting a SNP of interest
+plink --bfile hapmap1 --snp rs2222162 --recodeAD --out rec_snp1
+```
+
+
+
+
+
+### Association analysis, accounting for clusters
+
+Finally, it is possible to generate a visualisation of the substructure in the sample by creating 
+a matrix of pairwsie IBS distances, then using a statistical package such as R to generate a multidimensional 
+scaling plot, for example: use
+
+```{r}
+m <- as.matrix(read.table(params$filename))
+mds <- cmdscale(as.dist(1-m))
+k <- c( rep("green",45) , rep("blue",44) )
+plot(mds,pch=20,col=k)
+```
+
+This plot certainly seems to suggest that at least two quite distinct clusters 
+exist in the sample. Based on viewing this kind of plot, one would be in a better
+position to determine which approach to stratification to subsequently take.
+
+
+### Quantitative trait association analysis
+Let's now analyse this quantitative trait directly.
+
+```{bash echo=TRUE,results='hide',fig.keep='all'}
+plink --bfile hapmap1 --assoc --pheno qt.phe --out quant1
+```
+
+```{bash echo=TRUE,fig.keep='all'}
+head quant1.qassoc
+```
+
+Instead of performing a stratified analysis or including covariates, one approach is to use permutation: specifically,
+it is possible to permute (i.e. label-swap phenotypes between individuals) but only within cluster. 
+
+```{bash echo=TRUE,results='hide',fig.keep='all'}
+plink --bfile hapmap1 --assoc --pheno qt.phe --perm --within str1.cluster2 --out quant2
+```
+
+```{bash echo=TRUE,fig.keep='all'}
+head quant2.qassoc.perm
+```
+
+
+### Extracting a SNP of interest
+
+Finally, given you've identified a SNP, set of SNPs or region of interest, 
+you might want to extract those SNPs as a separate, smaller, more manageable file.
+In particular, for other applications to analyse the data, you will need to convert from the binary 
+PED file format to a standard PED format. This is done using the --recode options (fully described here). 
+There are a few forms of this option: we will use the --recodeAD that codes the genotypes in a manner that is 
+convenient for subsequent analysis in R or any other non-genetic statistical package. To extract only this single SNP.
+
+```{bash echo=TRUE,results='hide',fig.keep='all'}
+plink --bfile hapmap1 --snp rs2222162 --recodeAD --out rec_snp1
+```
+
+We can then load this file into our statistics package and easily perform other analyses: 
+for example, to repeat the main analysis as a simple logistic regression using the R package (not controlling for clusters):
+
+```{r}
+d <- read.table(params$filename2 , header=T)
+summary(glm(PHENOTYPE-1 ~ rs2222162_1, data=d, family="binomial"))
+```
+
+which confirms the original analysis. Naturally, things such as survival analysis or other models not 
+implemented in PLINK can now be performed.
+
+
+### References 
+
+Package:       
+	PLINK (including version number)   
+        Author:      Shaun Purcell   
+        URL:         http://pngu.mgh.harvard.edu/purcell/plink/   
+
+        Purcell S, Neale B, Todd-Brown K, Thomas L, Ferreira MAR,   
+	Bender D, Maller J, Sklar P, de Bakker PIW, Daly MJ & Sham PC (2007)   
+        PLINK: a toolset for whole-genome association and population-based    
+	linkage analysis. American Journal of Human Genetics, 81.   
